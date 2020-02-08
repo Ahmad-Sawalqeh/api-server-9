@@ -1,17 +1,31 @@
+/* eslint-disable strict */
 'use strict';
 
-const server = require('./lib/server.js');
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const server = require('./lib/server.js');
+require('dotenv').config();
 
-dotenv.config();
+// const PORT = process.env.PORT;
+// const MONGODB_URI = 'mongodb://localhost:27017/class09';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/class09';
 
 const mongooseOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useUnifiedTopology: true
-}
+  useUnifiedTopology: true,
+  // useFindAndModify: false,
+};
 
-mongoose.connect(process.env.MONGODB_URI, mongooseOptions);
+// mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, mongooseOptions)
+  .then(() => {
+    //connection established successfully
+    console.log('Database connected');
+  })
+  .catch((error) => {
+    //catch any error during the initial connection
+    console.log('Failed to connect to database: ', error);
+  });
 
-server.start(process.env.PORT);
+
+server.start();

@@ -1,29 +1,31 @@
+/* eslint-disable strict */
 'use strict';
 
 class ModelCRUD {
   constructor(schema) {
-    this.schema
+    this.schema = schema;
   }
 
-  get(id) {
-    if (id) {
-      return this.schema.find(id)
+  get(_id) {
+    if (_id) {
+      return this.schema.find(_id);
     } else {
-      return this.schema.find({})
+      return this.schema.find({});
     }
   }
 
   create(obj) {
-    let newObject = new this.schema(obj)
-    return newObject.save()
+    // eslint-disable-next-line new-cap
+    let newObject = new this.schema(obj);
+    return newObject.save();
   }
 
-  update(id, updatedObj) {
-    return this.schema.findByIdAndUpdate(id, updatedObj)
+  update(_id, updatedObj) {
+    return this.schema.findByIdAndUpdate(_id, updatedObj);
   }
 
-  delete(id) {
-    return this.schema.findByIdAndDelete(id)
+  delete(_id) {
+    return this.schema.findByIdAndDelete(_id);
   }
 }
 

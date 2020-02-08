@@ -1,3 +1,5 @@
+/* eslint-disable new-cap */
+/* eslint-disable strict */
 'use strict';
 
 const express = require('express');
@@ -10,11 +12,13 @@ function getModel(req, res, next) {
   let model = req.params.model;
 
   switch (model) {
-  case "categories":
+  case 'categories':
     req.model = categories;
+    next();
     return;
-  case "products":
+  case 'products':
     req.model = products;
+    next();
     return;
   default:
     next('invalid');
@@ -22,60 +26,78 @@ function getModel(req, res, next) {
   }
 }
 
-router.param('model', getModel)
+router.param('model', getModel);
 
-router.get('api/v1/:model', getAllModel)
-router.get('api/v1/:model/:id', getOneModel)
-router.post('api/v1/:model', createModel)
-router.put('api/v1/:model/:id', updateModel)
-router.delete('api/v1/:model/:id', deleteModel)
+router.get('/:model', getAllModel);
+router.get('/:model/:id', getOneModel);
+router.post('/:model', createModel);
+router.put('/:model/:id', updateModel);
+router.delete('/:model/:id', deleteModel);
+
+// data to be store in categories schema
+// {
+//   "name": "cellphone",
+//   "display_name": "M20",
+//   "description": "has 2 cameras"
+// }
+
+// data to be store in products schema
+// {
+//   "name": "cellphone",
+//   "display_name": "M20",
+//   "description": "has 2 cameras",
+//   "category": "phones"
+// }
+// {
+//   "name": "blue phone",
+//   "display_name": "S10",
+//   "description": "super cameras",
+//   "category": "phones"
+// }
 
 function getAllModel(req, res, next) {
   req.model.get()
     .then(results => {
       let count = results.length;
-      res.json({ count, results })
+      res.json({ count, results });
     })
     .catch(next);
 }
 
 function getOneModel(req, res, next) {
-  let _id = req.params.id
-  req.model
-    .get(_id)
+  let _id = req.params.id;
+  req.model.get(_id)
     .then(results => {
-      res.json(results)
+      res.status(200).json(results);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function createModel(req, res, next) {
-  let record = req.body
-  req.model
-    .post(record)
+  req.model.create(req.body)
     .then(results => {
-      res.json(results)
+      res.status(201).json(results);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function updateModel(req, res, next) {
-  let record = req.body
-  let _id = req.params.id
-  req.model.put(_id, record)
+  let _id = req.params.id;
+  req.model.update(_id, req.body)
     .then(results => {
-      res.json(results);
+      res.status(201).json(results);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function deleteModel(req, res, next) {
-  let _id = req.params.id
+  let message = 'deleted';
+  let _id = req.params.id;
   req.model.delete(_id)
-    .then(results => {
-      res.json(results)
+    .then(() => {
+      res.status(201).json({ confirm: message });
     })
-    .catch(next)
+    .catch(next);
 }
 
-module.exports = router
+module.exports = router;

@@ -1,28 +1,31 @@
+/* eslint-disable strict */
+/* eslint-disable new-cap */
+/* eslint-disable camelcase */
 'use strict';
 
-const mongoose = require('mongoose')
-require('./products.js')
+const mongoose = require('mongoose');
+require('./products.js');
 
 const productsSchema = mongoose.Schema({
   name: { type: String, required: true },
   display_name: { type: String, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true }
+  category: { type: String, required: true },
 }, { toObject: { virtuals: true }, toJson: { virtuals: true } });
 
 productsSchema.virtual('actualCategory', {
   ref: 'categories',
   localField: 'category',
   foreignField: 'name',
-  justOne: false
-})
+  justOne: false,
+});
 
 productsSchema.pre('findOne', function () {
   try {
-    this.populte('actualCategory')
+    this.populte('actualCategory');
   } catch (err) {
     console.error(err);
   }
-})
+});
 
-module.exports = mongoose.model('products', productsSchema)
+module.exports = mongoose.model('products', productsSchema);
