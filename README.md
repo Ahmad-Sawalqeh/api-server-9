@@ -7,7 +7,7 @@
 ### Links and Resources
 
 - [submission PR](https://github.com/Ahmad-Sawalqeh/api-server-9/pull/1)
-- [ci/cd]() (GitHub Actions)
+- [ci/cd](https://github.com/Ahmad-Sawalqeh/api-server-9/runs/433310093?check_suite_focus=true) (GitHub Actions)
 
 ### Setup
 run `npm i`
