@@ -13,16 +13,22 @@ const productsSchema = mongoose.Schema({
   category: { type: String, required: true },
 }, { toObject: { virtuals: true }, toJson: { virtuals: true } });
 
+/**
+ * virtual modleing for products
+ */
 productsSchema.virtual('actualCategory', {
-  ref: 'categories',
-  localField: 'category',
-  foreignField: 'name',
+  ref: 'categories',// collection/model name (categories)
+  localField: 'category',// category inside products schema
+  foreignField: 'name',// name inside categories schema
   justOne: false,
 });
 
+/**
+ * the (pre) hook method to invoke callback function before go to database and applying (findOne) method
+ */
 productsSchema.pre('findOne', function () {
   try {
-    this.populte('actualCategory');
+    this.populte('actualCategory');// the virtual name (property) we created
   } catch (err) {
     console.error(err);
   }

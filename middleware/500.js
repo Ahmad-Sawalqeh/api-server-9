@@ -1,6 +1,13 @@
 /* eslint-disable strict */
 'use strict';
 
+/**
+ * errorHandler middleware
+ * @param {Object} error
+ * @param {Object} req
+ * @param {Object} res
+ * @param {MM} next
+ */
 function errorHandler(err, req, res, next) {
   // res.status(500);
   // res.statusMessage = 'Server Error';

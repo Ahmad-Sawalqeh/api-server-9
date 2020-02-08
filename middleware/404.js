@@ -1,6 +1,12 @@
 /* eslint-disable strict */
 'use strict';
 
+/**
+ * notFoundHandler middleware
+ * @param {Object} req
+ * @param {Object} res
+ * @param {MM} next
+ */
 function notFoundHandler(req, res, next) {
 //   res.status(404);
 //   res.statusMessage = 'Not Found!';
